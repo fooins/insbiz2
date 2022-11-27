@@ -1,7 +1,7 @@
 {
-  "name": "insbiz",
+  "name": "insbiz2",
   "version": "1.0.0",
-  "description": "这是一个在福保成立初期设计开发的保险业务系统，它为前端销售渠道提供保险业务的接入，包括但不限于承保、退保、批改、查询保单、理赔、续保等服务。纯 API 接入没有界面。",
+  "description": "这是福保业务倍增阶段用于保险业务接入的系统。克隆自成立初期的 insbiz 系统，并根据本阶段 “稳定、大流量” 的特点，进行大量 “高性能&高可用&高扩展” 的升级改造。",
   "main": "src/start.js",
   "scripts": {
     "start:dev": "cross-env NODE_ENV=development nodemon ./src/start.js",
@@ -16,15 +16,15 @@
   ],
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/fooins/insbiz.git"
+    "url": "git+https://github.com/fooins/insbiz2.git"
   },
   "keywords": [],
   "author": "itabbot",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/fooins/insbiz/issues"
+    "url": "https://github.com/fooins/insbiz2/issues"
   },
-  "homepage": "https://github.com/fooins/insbiz#readme",
+  "homepage": "https://github.com/fooins/insbiz2#readme",
   "dependencies": {
     "@koa/router": "^12.0.0",
     "axios": "^1.1.2",
