@@ -1,0 +1,57 @@
+{
+  "name": "insbiz2",
+  "version": "2.0.0",
+  "description": "这是福保业务倍增阶段用于保险业务接入的服务。克隆自成立初期的 insbiz 系统，并根据本阶段 “稳定、大流量” 的特点，进行大量 “高性能&高可用&高扩展” 的升级改造。",
+  "main": "src/start.js",
+  "scripts": {
+    "start:dev": "cross-env NODE_ENV=development nodemon ./src/start.js",
+    "lint": "eslint . --fix",
+    "test": "cross-env NODE_ENV=development jest --detectOpenHandles",
+    "sync-models:dev": "cross-env NODE_ENV=development node ./src/scripts/sync-models.js",
+    "reset-data:dev": "cross-env NODE_ENV=development node ./src/scripts/reset-data.js"
+  },
+  "pre-commit": [
+    "lint"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/fooins/insbiz2.git"
+  },
+  "keywords": [],
+  "author": "itabbot",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/fooins/insbiz2/issues"
+  },
+  "homepage": "https://github.com/fooins/insbiz2#readme",
+  "dependencies": {
+    "@koa/router": "^12.0.0",
+    "axios": "^1.1.2",
+    "cls-rtracer": "^2.6.2",
+    "config": "^3.3.7",
+    "crypto-js": "^4.1.1",
+    "csv-parse": "^5.3.1",
+    "ioredis": "^5.2.3",
+    "joi": "^17.6.0",
+    "koa": "^2.13.4",
+    "koa-body": "^5.0.0",
+    "lodash": "^4.17.21",
+    "moment": "^2.29.4",
+    "mysql2": "^2.3.3",
+    "sequelize": "^6.21.4",
+    "uuid": "^9.0.0",
+    "winston": "^3.8.1",
+    "winston-daily-rotate-file": "^4.7.1"
+  },
+  "devDependencies": {
+    "cross-env": "^7.0.3",
+    "eslint": "^8.23.0",
+    "eslint-config-airbnb-base": "^15.0.0",
+    "eslint-config-prettier": "^8.5.0",
+    "eslint-plugin-import": "^2.26.0",
+    "eslint-plugin-prettier": "^4.2.1",
+    "jest": "^29.2.2",
+    "nodemon": "^2.0.19",
+    "pre-commit": "^1.2.2"
+  }
+}
