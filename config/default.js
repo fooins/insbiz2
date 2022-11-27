@@ -8,8 +8,6 @@ module.exports = {
     // 端口号
     port: 8080,
   },
-  // 是否调度作业
-  scheduleJob: true,
   // 数据库
   db: {
     // 主机名或IP
