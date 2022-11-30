@@ -4,6 +4,9 @@
 # 工作流名称
 name: Deploy to production(TKE)
 
+# 触发工作流方式，workflow_dispatch 表示手动触发
+on: workflow_dispatch
+
 # 用于工作流中所有作业的步骤的环境变量
 env:
   # TKE 镜像仓库地址
