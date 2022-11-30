@@ -7,17 +7,6 @@ name: Deploy to production(TKE)
 # 触发工作流方式，workflow_dispatch 表示手动触发
 on: workflow_dispatch
 
-# 用于工作流中所有作业的步骤的环境变量
-env:
-  # TKE 镜像仓库地址
-  TKE_REGISTRY_SERVER: ccr.ccs.tencentyun.com/fooins/fooins-registry
-  # TKE 集群所在地域
-  TKE_REGION: ap-guangzhou
-  # TKE 集群 ID
-  TKE_CLUSTER_ID: cls-20rlaqms
-  # 负载名称
-  DEPLOYMENT_NAME: insbiz2
-
 # 作业清单
 jobs:
   # 作业唯一标识符
@@ -37,14 +26,14 @@ jobs:
       # 步骤2
       - name: 构建 Docker 镜像
         run: |
-          docker build -t ${TKE_REGISTRY_SERVER}:${GITHUB_SHA} .
+          docker build -t ${{ secrets.TKE_REGISTRY_SERVER }}:${GITHUB_SHA} .
 
       # 步骤3
       - name: 登录 TKE 镜像仓库
         run: |
-          docker login -u ${{ secrets.TENCENT_CLOUD_ACCOUNT_ID }} -p '${{ secrets.TKE_REGISTRY_PASSWORD }}' ${TKE_REGISTRY_SERVER}
+          docker login -u ${{ secrets.TENCENT_CLOUD_ACCOUNT_ID }} -p '${{ secrets.TKE_REGISTRY_PASSWORD }}' ${{ secrets.TKE_REGISTRY_SERVER }}
 
       # 步骤4
       - name: 将 Docker 镜像推到 TKE 镜像仓库
         run: |
-          docker push ${TKE_REGISTRY_SERVER}:${GITHUB_SHA}
+          docker push ${{ secrets.TKE_REGISTRY_SERVER }}:${GITHUB_SHA}
