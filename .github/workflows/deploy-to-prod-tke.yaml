@@ -69,7 +69,7 @@ jobs:
       # 步骤7
       - name: 切换到 TKE 上下文
         run: |
-          kubectl config use-context ${{ secrets.TKE_CLUSTER_ID }}-context-default
+          kubectl config use-context ${{ secrets.TKE_CLUSTER_ID }}-${{ secrets.TENCENT_CLOUD_ACCOUNT_ID }}-context-default
 
       # 步骤8
       - name: 部署
