@@ -47,11 +47,11 @@ jobs:
         run: |
           docker push ${{ secrets.TKE_REGISTRY_SERVER }}:${GITHUB_SHA}
 
-      # 步骤5
-      - name: 安装 Kustomize
-        run: |
-          curl -o kustomize --location https://github.com/kubernetes-sigs/kustomize/releases/download/v3.1.0/kustomize_3.1.0_linux_amd64
-          chmod u+x ./kustomize
+      # # 步骤5
+      # - name: 安装 Kustomize
+      #   run: |
+      #     curl -o kustomize --location https://github.com/kubernetes-sigs/kustomize/releases/download/v3.1.0/kustomize_3.1.0_linux_amd64
+      #     chmod u+x ./kustomize
 
       # 步骤6
       - name: 设置 ~/.kube/config 用于连接 TKE 集群
@@ -70,7 +70,9 @@ jobs:
       # 步骤8
       - name: 部署
         run: |
-          ./kustomize edit set image ${{ secrets.TKE_REGISTRY_SERVER }}:${GITHUB_SHA}
-          ./kustomize build . | kubectl apply -f -
-          kubectl rollout status deployment/insbiz2
-          kubectl get services -o wide
+          kubectl set image deployment/insbiz2 container1=${{ secrets.TKE_REGISTRY_SERVER }}:${GITHUB_SHA}
+
+        # ./kustomize edit set image ${{ secrets.TKE_REGISTRY_SERVER }}:${GITHUB_SHA}
+        # ./kustomize build . | kubectl apply -f -
+        # kubectl rollout status deployment/insbiz2
+        # kubectl get services -o wide
