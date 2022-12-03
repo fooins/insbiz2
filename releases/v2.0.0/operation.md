@@ -20,7 +20,7 @@
    - Redis
      - 迁移数据。
 
-3. 设置 [GitHub 密钥](https://github.com/organizations/fooins/settings/secrets/actions)。
+3. 设置 [GitHub 流水线密钥信息](https://github.com/organizations/fooins/settings/secrets/actions)
 
    - TENCENT_CLOUD_ACCOUNT_ID: 腾讯云账户 ID
    - TENCENT_CLOUD_SECRET_ID: 腾讯云密钥 ID
@@ -31,7 +31,7 @@
    - TKE_CLUSTER_ID: TKE 集群唯一标识
    - INSBIZ2_PRODUCTION_CONFIG: INSBIZ2 生产配置
 
-4. 启动流水线 “[部署到生产环境（TKE）](https://github.com/fooins/insbiz2/actions/workflows/deploy-to-prod-tke.yaml)”。
+4. 启动流水线 “[部署到生产环境（TKE）](https://github.com/fooins/insbiz2/actions/workflows/deploy-to-prod-tke.yaml)”
 
 5. 回滚（若需要）。
 
