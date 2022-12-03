@@ -9,6 +9,7 @@
 #  - TKE_REGISTRY_PASSWORD: TKE镜像仓库密码
 #  - TKE_REGION: TKE 所在地域
 #  - TKE_CLUSTER_ID: TKE集群唯一标识
+#  - INSBIZ2_PRODUCTION_CONFIG: INSBIZ2生产配置
 
 # 工作流名称
 name: 部署到生产环境（TKE）
@@ -28,37 +29,34 @@ jobs:
     environment: production
     # 作业包含的一系列步骤（任务）
     steps:
-      # 步骤1
       - name: 检出代码
         uses: actions/checkout@v3
 
-      # 步骤2
+      - name: 设置项目配置信息
+        run: |
+          echo -e "${{ secrets.INSBIZ2_PRODUCTION_CONFIG }}" > ./config/production.js
+
       - name: 构建 Docker 镜像
         run: |
           docker build -t ${{ secrets.TKE_REGISTRY_SERVER }}:${GITHUB_SHA} .
 
-      # 步骤3
       - name: 登录 TKE 镜像仓库
         run: |
           docker login -u ${{ secrets.TENCENT_CLOUD_ACCOUNT_ID }} -p '${{ secrets.TKE_REGISTRY_PASSWORD }}' ${{ secrets.TKE_REGISTRY_SERVER }}
 
-      # 步骤4
       - name: 将 Docker 镜像推到 TKE 镜像仓库
         run: |
           docker push ${{ secrets.TKE_REGISTRY_SERVER }}:${GITHUB_SHA}
 
-      # 步骤5
       - name: 设置 ~/.kube/config 用于连接 TKE 集群
         run: |
           mkdir ~/.kube
           echo -e "${{ secrets.TKE_KUBE_CONFIG }}" > ~/.kube/config
 
-      # 步骤6
       - name: 切换到 TKE 上下文
         run: |
           kubectl config use-context ${{ secrets.TKE_CLUSTER_ID }}-${{ secrets.TENCENT_CLOUD_ACCOUNT_ID }}-context-default
 
-      # 步骤7
       - name: 更新 insbiz2 集群镜像
         run: |
           kubectl set image deployment/insbiz2 container1=${{ secrets.TKE_REGISTRY_SERVER }}:${GITHUB_SHA}

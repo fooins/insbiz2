@@ -16,6 +16,7 @@
    - TKE_REGISTRY_PASSWORD: TKE 镜像仓库密码
    - TKE_REGION: TKE 所在地域
    - TKE_CLUSTER_ID: TKE 集群唯一标识
+   - INSBIZ2_PRODUCTION_CONFIG: INSBIZ2 生产配置
 
 3. 启动流水线 “[部署到生产环境（TKE）](https://github.com/fooins/insbiz2/actions/workflows/deploy-to-prod-tke.yaml)”
 
