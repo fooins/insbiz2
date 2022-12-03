@@ -15,10 +15,8 @@
    - 容器镜像服务
      - 创建命名空间 fooins。
      - 创建镜像仓库 fooins-registry。
-   - MySQL
-     - 迁移数据。
-   - Redis
-     - 迁移数据。
+   - MySQL：迁移数据。
+   - Redis：迁移数据。
 
 3. 设置 [GitHub 流水线密钥信息](https://github.com/organizations/fooins/settings/secrets/actions)
 
