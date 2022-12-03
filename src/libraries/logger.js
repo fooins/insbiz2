@@ -10,24 +10,32 @@ const winston = require('winston');
 require('winston-daily-rotate-file');
 const env = require('./env');
 
+// 日志存储的目录
+const dirname = path.join(__dirname, '../../logs/');
+
 /**
- * 获取日志记录器。
- * @param {string} name 记录器名称
- * @param {object} options 可覆盖创建 winston 记录器时传入的选项
- * @returns winston 日志记录器对象
+ * 生成日志级别
  */
-module.exports = function getLogger(name, options = {}) {
-  if (!winston.loggers.has(name)) {
-    // 日志级别
-    const level = env.isProd() ? 'warn' : 'silly';
+const genLevel = (name, options = {}) => {
+  let level;
+  if (env.isProd()) {
+    level = options.levelProd || 'warn';
+  } else {
+    level = options.levelNotProd || 'silly';
+  }
+  return level;
+};
 
-    // 日志存储的目录
-    const dirname = path.join(__dirname, '../../logs/');
+/**
+ * 生成日志传输方式
+ */
+const genTransports = (name, options = {}) => {
+  const transports = [];
 
-    // 日志传输方式
-    const transports = [
-      // 所有级别的日志记录到一个统一的文件中
-      // 按照日期滚动
+  // 所有级别的日志记录到一个统一的文件中
+  // 按照日期滚动
+  if (!options.noUniFile) {
+    transports.push(
       new winston.transports.DailyRotateFile({
         dirname, // 存储的目录
         filename: `${name}-%DATE%`, // 文件名
@@ -37,8 +45,13 @@ module.exports = function getLogger(name, options = {}) {
         maxFiles: '14d', // 最多保留多少天的日志文件，超过的会被删除（不加“d”的话则是最多保留多少个文件）
         extension: '.log', // 文件后缀
       }),
-      // 错误级别的日志单独再记录一份，以便处理
-      // 按大小滚动
+    );
+  }
+
+  // 错误级别的日志单独再记录一份，以便处理
+  // 按大小滚动
+  if (!options.noErrorFile) {
+    transports.push(
       new winston.transports.File({
         dirname, // 存储的目录
         level: 'error', // 适用的日志级别
@@ -47,15 +60,43 @@ module.exports = function getLogger(name, options = {}) {
         maxsize: 1024 * 100, // 文件最大大小（字节）
         maxFiles: 10, // 最多保留多少个日志文件，超过的会被删除
       }),
-    ];
+    );
+  }
 
-    // 非生产环境同时打印到控制台
-    if (!env.isProd() && !options.noConsole) {
-      transports.push(new winston.transports.Console());
-    }
+  // 打印到控制台
+  let isConsole = !env.isProd();
+  const { consoleNot, consoleAll, consoleProd, consoleNotProd } = options;
+  if (consoleAll) isConsole = true;
+  else if (consoleNot) isConsole = false;
+  else if (consoleProd) isConsole = env.isProd();
+  else if (consoleNotProd) isConsole = !env.isProd();
+  if (isConsole) {
+    transports.push(new winston.transports.Console());
+  }
 
+  return transports;
+};
+
+/**
+ * 生成日志内容格式
+ */
+const genFormat = (name, options = {}) => {
+  const formats = [];
+
+  // 记录时间
+  if (!options.noFormatTimestamp) {
+    formats.push(winston.format.timestamp());
+  }
+
+  // 记录错误信息
+  if (!options.noFormatErrors) {
+    formats.push(winston.format.errors({ stack: true }));
+  }
+
+  // 记录自定义信息
+  if (!options.noFormatCustom) {
     // 自定义格式
-    const customFormat = winston.format((info) => {
+    const custom = winston.format((info) => {
       // 跟踪标识
       // eslint-disable-next-line no-param-reassign
       info.tid = rTracer.id();
@@ -66,17 +107,35 @@ module.exports = function getLogger(name, options = {}) {
 
       return info;
     });
+    formats.push(custom());
+  }
 
+  // 采用JSON格式
+  if (!options.noFormatJson) {
+    formats.push(winston.format.json());
+  }
+
+  // 自定义的格式
+  if (options.formats) {
+    formats.push(...options.formats);
+  }
+
+  return winston.format.combine(...formats);
+};
+
+/**
+ * 获取日志记录器。
+ * @param {string} name 记录器名称
+ * @param {object} options 可覆盖创建 winston 记录器时传入的选项，以及其他控制项
+ * @returns winston 日志记录器对象
+ */
+module.exports = function getLogger(name, options = {}) {
+  if (!winston.loggers.has(name)) {
     // 创建日志记录器并缓存
     winston.loggers.add(name, {
-      level,
-      transports,
-      format: winston.format.combine(
-        winston.format.timestamp(),
-        winston.format.errors({ stack: true }),
-        customFormat(),
-        winston.format.json(),
-      ),
+      level: genLevel(name, options),
+      transports: genTransports(name, options),
+      format: genFormat(name, options),
       ...options,
     });
   }

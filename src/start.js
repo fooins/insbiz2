@@ -12,6 +12,8 @@ const {
 // 创建日志记录器
 const logger = require('./libraries/logger')('start', {
   level: 'info',
+  noErrorFile: true,
+  consoleAll: true,
   format: winston.format.combine(
     winston.format.timestamp(),
     winston.format.printf(
