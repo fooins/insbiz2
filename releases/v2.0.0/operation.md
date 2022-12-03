@@ -1,16 +1,24 @@
 # Insbiz 2.0.0 发布操作
 
-1. 购买设备（这里用的是腾讯云）。
+1. 购买设备（这里用的是腾讯云）
 
-   - 购买 Kubernetes 托管服务（托管控制平面集群）。
-   - 购买镜像仓库服务。
-   - 购买 MySQL(8.x) 高可用实例。
-   - 购买 Redis(7.x) 集群版实例。
+   - 购买容器服务（Tencent Kubernetes Engine，TKE）。
+   - 购买容器镜像服务（Tencent Container Registry，TCR）。
+   - 购买云数据库 MySQL（TencentDB for MySQL）高可用实例。
+   - 购买云数据库 Redis（TencentDB for Redis）集群版实例。
 
-2. 存量数据迁移。
+2. 设备初始化
 
-   - MySQL 数据。
-   - Redis 数据。
+   - 容器服务
+     - 创建 insbiz2 集群（Deployment）。
+     - 创建 insbiz2 服务（Service）。
+   - 容器镜像服务
+     - 创建命名空间 fooins。
+     - 创建镜像仓库 fooins-registry。
+   - MySQL
+     - 迁移数据。
+   - Redis
+     - 迁移数据。
 
 3. 设置 [GitHub 密钥](https://github.com/organizations/fooins/settings/secrets/actions)。
 
