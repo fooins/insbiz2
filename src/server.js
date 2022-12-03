@@ -14,15 +14,13 @@ let httpServer;
 
 /**
  * 启动服务
- * @param {object} options 附加选项
  * @returns {Http.Server.AddressInfo} 服务地址信息
  */
-const startHttpServer = async (options = {}) =>
+const startHttpServer = async () =>
   new Promise((resolve) => {
     // 定义端口和主机名
-    const port =
-      options.port === undefined ? config.get('server.port') : options.port;
-    const hostname = options.hostname || config.get('server.host');
+    const port = config.get('server.port');
+    const hostname = process.env.HOSTNAME || config.get('server.host');
 
     // 监听错误事件
     app.on('error', (error, ctx) => {
