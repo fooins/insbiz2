@@ -1,5 +1,4 @@
 const winston = require('winston');
-const config = require('config');
 const { startHttpServer } = require('./server');
 const { validateConfigs } = require('./libraries/configuration');
 const { getDbConnection } = require('./libraries/data-access');
