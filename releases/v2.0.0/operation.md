@@ -22,6 +22,7 @@
 
 3. 设置 [GitHub 流水线密钥信息](https://github.com/organizations/fooins/settings/secrets/actions)
 
+   - INSBIZ2_PRODUCTION_CONFIG: INSBIZ2 生产配置
    - TENCENT_CLOUD_ACCOUNT_ID: 腾讯云账户 ID
    - TENCENT_CLOUD_SECRET_ID: 腾讯云密钥 ID
    - TENCENT_CLOUD_SECRET_KEY: 腾讯云密钥
@@ -30,7 +31,6 @@
    - TKE_REGION: TKE 所在地域
    - TKE_REGISTRY_PASSWORD: TKE 镜像仓库密码
    - TKE_REGISTRY_SERVER: TKE 镜像仓库地址（包含路径）
-   - INSBIZ2_PRODUCTION_CONFIG: INSBIZ2 生产配置
 
 4. 启动流水线 “[部署到生产环境（TKE）](https://github.com/fooins/insbiz2/actions/workflows/deploy-to-prod-tke.yaml)”
 
