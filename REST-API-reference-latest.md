@@ -1,6 +1,6 @@
 # 保险业务系统 REST API 参考文档 v1.0 <!-- omit in toc -->
 
-[Postman](https://www.postman.com/itabbot/workspace/fooins/documentation/23043514-109c3eef-b80a-4455-80f8-c0f2f1f3bb29)
+[Postman](https://www.postman.com/itabbot/workspace/fooins/documentation/23043514-a84b1e52-6b4f-4b86-8cc2-427af02a7f6e)
 
 ## 变更说明 <!-- omit in toc -->
 
