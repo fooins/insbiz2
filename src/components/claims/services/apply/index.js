@@ -197,10 +197,10 @@ const saveClaimData = async (ctx) => {
   const { compensationTask } = ctx.dataSaved;
   if (compensationTask && compensationTask.autoCompensate === 'enabled') {
     await getRedis().xadd(
-      'auto-compensate',
-      '*',
-      'tid',
-      ctx.dataSaved.compensationTask.id,
+      'auto-compensate', // 队列名
+      '*', // 表示由系统生成消息ID
+      'tid', // 字段名
+      ctx.dataSaved.compensationTask.id, // 字段值
     );
   }
 };
