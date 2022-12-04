@@ -169,7 +169,7 @@ const generateClaimData = async (ctx, profile) => {
   let compensationTaskData = null;
   if (autoCompensate.enable) {
     compensationTaskData = {
-      autoCompensate: true,
+      autoCompensate: 'enabled',
     };
   }
 
@@ -192,6 +192,17 @@ const saveClaimData = async (ctx) => {
 
   // 保存理赔单
   ctx.dataSaved = await dao.saveClaims(saveData);
+
+  // 推送自动理赔队列消息
+  const { compensationTask } = ctx.dataSaved;
+  if (compensationTask && compensationTask.autoCompensate === 'enabled') {
+    await getRedis().xadd(
+      'auto-compensate',
+      '*',
+      'tid',
+      ctx.dataSaved.compensationTask.id,
+    );
+  }
 };
 
 /**
