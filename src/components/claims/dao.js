@@ -127,8 +127,9 @@ const saveClaims = async (saveData) => {
     );
 
     // 生成赔付任务
+    let compensationTask = null;
     if (compensationTaskData) {
-      await getCompensationTaskModel().create(
+      compensationTask = await getCompensationTaskModel().create(
         {
           ...compensationTaskData,
           claimId: claim.id,
@@ -145,6 +146,7 @@ const saveClaims = async (saveData) => {
     return {
       claim,
       claimInsureds,
+      compensationTask,
     };
   } catch (error) {
     // 回滚事务
