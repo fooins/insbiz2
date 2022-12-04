@@ -38,7 +38,7 @@ jobs:
 
       - name: 构建 Docker 镜像
         run: |
-          docker build -t ${{ secrets.TKE_REGISTRY_SERVER }}:${GITHUB_SHA} .
+          docker build -t ${{ secrets.TKE_REGISTRY_SERVER }}:${GITHUB_SHA}${GITHUB_RUN_ID} .
 
       - name: 登录 TKE 镜像仓库
         run: |
@@ -46,7 +46,7 @@ jobs:
 
       - name: 将 Docker 镜像推到 TKE 镜像仓库
         run: |
-          docker push ${{ secrets.TKE_REGISTRY_SERVER }}:${GITHUB_SHA}
+          docker push ${{ secrets.TKE_REGISTRY_SERVER }}:${GITHUB_SHA}${GITHUB_RUN_ID}
 
       - name: 设置 ~/.kube/config 用于连接 TKE 集群
         run: |
@@ -59,4 +59,4 @@ jobs:
 
       - name: 更新 insbiz2 集群镜像
         run: |
-          kubectl set image deployment/insbiz2 container1=${{ secrets.TKE_REGISTRY_SERVER }}:${GITHUB_SHA}
+          kubectl set image deployment/insbiz2 container1=${{ secrets.TKE_REGISTRY_SERVER }}:${GITHUB_SHA}${GITHUB_RUN_ID}
