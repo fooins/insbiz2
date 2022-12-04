@@ -18,7 +18,7 @@
    - MySQL：迁移数据。
    - Redis：迁移数据。
 
-3. 设置 GitHub 流水线[密钥信息](https://github.com/organizations/fooins/settings/secrets/actions)，并启动流水线 “[部署到生产环境(TKE)](https://github.com/fooins/insbiz2/actions/workflows/deploy-to-prod-tke.yaml)”：
+3. 设置 GitHub 流水线[密钥信息](https://github.com/organizations/fooins/settings/secrets/actions)：
 
    - INSBIZ2_PRODUCTION_CONFIG: INSBIZ2 生产配置。
    - TENCENT_CLOUD_ACCOUNT_ID: 腾讯云账户 ID。
@@ -29,6 +29,8 @@
    - TKE_REGION: TKE 所在地域。
    - TKE_REGISTRY_PASSWORD: TKE 镜像仓库密码。
    - TKE_REGISTRY_SERVER: TKE 镜像仓库地址（包含路径）。
+
+4. 手动触发流水线 “[部署到生产环境(TKE)](https://github.com/fooins/insbiz2/actions/workflows/deploy-to-prod-tke.yaml)”。
 
 ## 2. 回滚（若需要）
 
