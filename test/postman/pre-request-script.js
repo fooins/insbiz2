@@ -26,8 +26,8 @@ pm.request.url.query.map(({ key, value }) => {
 const queryStr = getQueryStr(query);
 
 // 密钥
-const secretId = pm.variables.get('InsbizSecretId');
-const secretKey = pm.variables.get('InsbizSecretKey');
+const secretId = pm.variables.get('Insbiz2SecretId');
+const secretKey = pm.variables.get('Insbiz2SecretKey');
 
 // 请求路径
 const path = pm.request.url.getPath();
