@@ -1,5 +1,4 @@
 const winston = require('winston');
-const config = require('config');
 const { startHttpServer } = require('./server');
 const { validateConfigs } = require('./libraries/configuration');
 const { getDbConnection } = require('./libraries/data-access');
@@ -13,6 +12,8 @@ const {
 // 创建日志记录器
 const logger = require('./libraries/logger')('start', {
   level: 'info',
+  noErrorFile: true,
+  consoleAll: true,
   format: winston.format.combine(
     winston.format.timestamp(),
     winston.format.printf(

@@ -2,16 +2,17 @@
 # 部署到生产环境（TKE, Tencent Kubernetes Engine）
 #
 # 需配置以下密钥
-#  - TENCENT_CLOUD_ACCOUNT_ID: 腾讯云账户 ID
-#  - TENCENT_CLOUD_SECRET_ID: 腾讯云密钥标识
+#  - TENCENT_CLOUD_ACCOUNT_ID: 腾讯云账户ID
+#  - TENCENT_CLOUD_SECRET_ID: 腾讯云密钥ID
 #  - TENCENT_CLOUD_SECRET_KEY: 腾讯云密钥
-#  - TKE_REGISTRY_SERVER: TKE 镜像仓库地址（包含路径）
-#  - TKE_REGISTRY_PASSWORD: TKE 镜像仓库密码
+#  - TKE_REGISTRY_SERVER: TKE镜像仓库地址（包含路径）
+#  - TKE_REGISTRY_PASSWORD: TKE镜像仓库密码
 #  - TKE_REGION: TKE 所在地域
-#  - TKE_CLUSTER_ID: TKE 集群唯一标识
+#  - TKE_CLUSTER_ID: TKE集群唯一标识
+#  - INSBIZ2_PRODUCTION_CONFIG: INSBIZ2生产配置
 
 # 工作流名称
-name: Deploy to production(TKE)
+name: 部署到生产环境（TKE）
 
 # 触发工作流方式，workflow_dispatch 表示手动触发
 on: workflow_dispatch
@@ -28,55 +29,34 @@ jobs:
     environment: production
     # 作业包含的一系列步骤（任务）
     steps:
-      # 步骤1
       - name: 检出代码
         uses: actions/checkout@v3
 
-      # 步骤2
+      - name: 设置项目配置信息
+        run: |
+          echo -e "${{ secrets.INSBIZ2_PRODUCTION_CONFIG }}" > ./config/production.js
+
       - name: 构建 Docker 镜像
         run: |
           docker build -t ${{ secrets.TKE_REGISTRY_SERVER }}:${GITHUB_SHA} .
 
-      # 步骤3
       - name: 登录 TKE 镜像仓库
         run: |
           docker login -u ${{ secrets.TENCENT_CLOUD_ACCOUNT_ID }} -p '${{ secrets.TKE_REGISTRY_PASSWORD }}' ${{ secrets.TKE_REGISTRY_SERVER }}
 
-      # 步骤4
       - name: 将 Docker 镜像推到 TKE 镜像仓库
         run: |
           docker push ${{ secrets.TKE_REGISTRY_SERVER }}:${GITHUB_SHA}
 
-      # # 步骤5
-      # - name: 安装 Kustomize
-      #   run: |
-      #     curl -o kustomize --location https://github.com/kubernetes-sigs/kustomize/releases/download/v3.1.0/kustomize_3.1.0_linux_amd64
-      #     chmod u+x ./kustomize
-
-      # 步骤6
       - name: 设置 ~/.kube/config 用于连接 TKE 集群
         run: |
           mkdir ~/.kube
           echo -e "${{ secrets.TKE_KUBE_CONFIG }}" > ~/.kube/config
 
-        # uses: TencentCloud/tke-cluster-credential-action@v1
-        # with:
-        #   secret_id: ${{ secrets.TENCENT_CLOUD_SECRET_ID }}
-        #   secret_key: ${{ secrets.TENCENT_CLOUD_SECRET_KEY }}
-        #   tke_region: ${{ secrets.TKE_REGION }}
-        #   cluster_id: ${{ secrets.TKE_CLUSTER_ID }}
-
-      # 步骤7
       - name: 切换到 TKE 上下文
         run: |
           kubectl config use-context ${{ secrets.TKE_CLUSTER_ID }}-${{ secrets.TENCENT_CLOUD_ACCOUNT_ID }}-context-default
 
-      # 步骤8
-      - name: 部署
+      - name: 更新 insbiz2 集群镜像
         run: |
           kubectl set image deployment/insbiz2 container1=${{ secrets.TKE_REGISTRY_SERVER }}:${GITHUB_SHA}
-
-        # ./kustomize edit set image ${{ secrets.TKE_REGISTRY_SERVER }}:${GITHUB_SHA}
-        # ./kustomize build . | kubectl apply -f -
-        # kubectl rollout status deployment/insbiz2
-        # kubectl get services -o wide

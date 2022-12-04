@@ -1,5 +1,8 @@
 const util = require('util');
-const logger = require('./logger')('error-handling');
+const logger = require('./logger')('error-handling', {
+  noUniFile: true,
+  consoleAll: true,
+});
 const { respFail } = require('./response');
 
 /**

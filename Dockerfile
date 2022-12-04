@@ -1,5 +1,3 @@
-# syntax=docker/dockerfile:1
-
 # 设置基础镜像
 FROM node:16.18.1
 
@@ -13,10 +11,13 @@ WORKDIR /app
 COPY ["package.json", "package-lock.json*", "./"]
 
 # 安装依赖项
-RUN npm install --production
+RUN npm install
 
 # 拷贝源代码
 COPY . .
 
 # 启动服务
 CMD [ "node", "./src/start.js" ]
+
+# 监听指定的网络端口
+EXPOSE 8080
