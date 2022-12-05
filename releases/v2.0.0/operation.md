@@ -20,7 +20,7 @@
 
 3. 设置 GitHub 流水线[密钥信息](https://github.com/organizations/fooins/settings/secrets/actions)：
 
-   - INSBIZ2_PRODUCTION_CONFIG: INSBIZ2 生产配置。
+   - PROD_CONFIG_INSBIZ2: INSBIZ2 生产配置。
    - TENCENT_CLOUD_ACCOUNT_ID: 腾讯云账户 ID。
    - TENCENT_CLOUD_SECRET_ID: 腾讯云密钥 ID。
    - TENCENT_CLOUD_SECRET_KEY: 腾讯云密钥。
