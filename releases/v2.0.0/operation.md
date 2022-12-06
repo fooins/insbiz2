@@ -22,11 +22,8 @@
 
    - PROD_CONFIG_INSBIZ2: INSBIZ2 生产配置。
    - TENCENT_CLOUD_ACCOUNT_ID: 腾讯云账户 ID。
-   - TENCENT_CLOUD_SECRET_ID: 腾讯云密钥 ID。
-   - TENCENT_CLOUD_SECRET_KEY: 腾讯云密钥。
    - TKE_CLUSTER_ID: TKE 集群唯一标识。
    - TKE_KUBE_CONFIG: TKE 连接配置信息。
-   - TKE_REGION: TKE 所在地域。
    - TKE_REGISTRY_PASSWORD: TKE 镜像仓库密码。
    - TKE_REGISTRY_SERVER: TKE 镜像仓库地址（包含路径）。
 
