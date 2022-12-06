@@ -2,14 +2,12 @@
 # 部署到生产环境（TKE, Tencent Kubernetes Engine）
 #
 # 需配置以下密钥
-#  - TENCENT_CLOUD_ACCOUNT_ID: 腾讯云账户ID
-#  - TENCENT_CLOUD_SECRET_ID: 腾讯云密钥ID
-#  - TENCENT_CLOUD_SECRET_KEY: 腾讯云密钥
-#  - TKE_REGISTRY_SERVER: TKE镜像仓库地址（包含路径）
-#  - TKE_REGISTRY_PASSWORD: TKE镜像仓库密码
-#  - TKE_REGION: TKE 所在地域
-#  - TKE_CLUSTER_ID: TKE集群唯一标识
-#  - INSBIZ2_PRODUCTION_CONFIG: INSBIZ2生产配置
+#  - PROD_CONFIG_INSBIZ2: INSBIZ2 生产配置。
+#  - TENCENT_CLOUD_ACCOUNT_ID: 腾讯云账户 ID。
+#  - TKE_CLUSTER_ID: TKE 集群唯一标识。
+#  - TKE_KUBE_CONFIG: TKE 连接配置信息。
+#  - TKE_REGISTRY_PASSWORD: TKE 镜像仓库密码。
+#  - TKE_REGISTRY_SERVER: TKE 镜像仓库地址（包含路径）。
 
 # 工作流名称
 name: 部署到生产环境（TKE）
@@ -34,7 +32,7 @@ jobs:
 
       - name: 设置项目配置信息
         run: |
-          echo -e "${{ secrets.INSBIZ2_PRODUCTION_CONFIG }}" > ./config/production.js
+          echo -e "${{ secrets.PROD_CONFIG_INSBIZ2 }}" > ./config/production.js
 
       - name: 构建 Docker 镜像
         run: |
